@@ -24,7 +24,7 @@ export default function CharacterModal({ isOpen, onClose, character }) {
           <Image src={character.image} alt={character.name} mb={4} />
           <Box>
             <Badge
-              colorScheme={character.status === "Alive" ? "green" : character.status === "Dead" ? "red" : "gray"}
+               colorPalette={character.status === "Alive" ? "green" : character.status === "Dead" ? "red" : "gray"}
             >
               {character.status === "Alive" ? "Alive" : character.status === "Dead" ? "Dead" : "Unknown"}
             </Badge>
