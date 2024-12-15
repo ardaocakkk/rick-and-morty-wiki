@@ -34,7 +34,6 @@ const Page = () => {
       }
 
       setLocations(allLocations);
-      console.log("Locations:", allLocations);
     };
 
     fetchAllLocations();
@@ -46,7 +45,6 @@ const Page = () => {
         const response = await fetch(`https://rickandmortyapi.com/api/location/${number}`);
         const data = await response.json();
         setInfo(data); // Set the location data
-        console.log("Location:", data);
         let characters = await Promise.all(
           data.residents.map((url) => {
             return fetch(url).then((res) => res.json());

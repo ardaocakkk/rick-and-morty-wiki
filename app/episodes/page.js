@@ -19,7 +19,6 @@ const Page = () => {
           "https://rickandmortyapi.com/api/episode/"
         );
         const data = await response.json();
-        console.log("Total:", data.info.count);
         setTotal(data.info.count); // The total number of episodes is in data.info.count
       } catch (error) {
         console.error("Error fetching total:", error);
@@ -37,7 +36,6 @@ const Page = () => {
         );
         const data = await response.json();
         setEpisode(data); // Set the episode data
-        console.log("Episode:", data);
         let a = await Promise.all(
           data.characters.map((x) => {
             return fetch(x).then((res) => res.json());

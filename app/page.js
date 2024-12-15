@@ -1,4 +1,4 @@
-'use client'
+"use client";
 import { useEffect, useState } from "react";
 import CharacterCard from "./ui/cards/CharacterCard";
 
@@ -30,27 +30,38 @@ export default function Home() {
   };
 
   useEffect(() => {
-    const api = `https://rickandmortyapi.com/api/character/?page=${pageNumber}&name=${search}&status=${status.join(",")}&gender=${gender.join(",")}&species=${species.join(",")}`;
-
-    console.log("API URL:", api); // Log the API URL for debugging
+    const api = `https://rickandmortyapi.com/api/character/?page=${pageNumber}&name=${search}&status=${status.join(
+      ","
+    )}&gender=${gender.join(",")}&species=${species.join(",")}`;
 
     (async function () {
       let data = await fetch(api).then((res) => res.json());
       updateFetchedData(data);
-      console.log("Fetched Data:", data); // Log the fetched data for debugging
     })();
   }, [pageNumber, search, status, gender, species]);
 
   const handleFilterChange = (filterType, value) => {
     switch (filterType) {
       case "status":
-        updateStatus((prev) => prev.includes(value) ? prev.filter(item => item !== value) : [...prev, value]);
+        updateStatus((prev) =>
+          prev.includes(value)
+            ? prev.filter((item) => item !== value)
+            : [...prev, value]
+        );
         break;
       case "gender":
-        updateGender((prev) => prev.includes(value) ? prev.filter(item => item !== value) : [...prev, value]);
+        updateGender((prev) =>
+          prev.includes(value)
+            ? prev.filter((item) => item !== value)
+            : [...prev, value]
+        );
         break;
       case "species":
-        updateSpecies((prev) => prev.includes(value) ? prev.filter(item => item !== value) : [...prev, value]);
+        updateSpecies((prev) =>
+          prev.includes(value)
+            ? prev.filter((item) => item !== value)
+            : [...prev, value]
+        );
         break;
       default:
         break;
@@ -59,7 +70,19 @@ export default function Home() {
   };
 
   const statusItems = ["Alive", "Dead", "Unknown"];
-  const speciesItems = ["Human", "Alien", "Humanoid", "Poopybutthole", "Mythological", "Unknown", "Animal", "Disease", "Robot", "Cronenberg", "Planet"];
+  const speciesItems = [
+    "Human",
+    "Alien",
+    "Humanoid",
+    "Poopybutthole",
+    "Mythological",
+    "Unknown",
+    "Animal",
+    "Disease",
+    "Robot",
+    "Cronenberg",
+    "Planet",
+  ];
   const genderItems = ["Female", "Male", "Genderless", "Unknown"];
 
   return (
@@ -74,24 +97,32 @@ export default function Home() {
             genderItems={genderItems}
             handleFilterChange={handleFilterChange}
           />
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {fetchedData.results && fetchedData.results.map((character) => (
-                <CharacterCard key={character.id} character={character} onClick={handleCardClick} />
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {fetchedData.results &&
+              fetchedData.results.map((character) => (
+                <CharacterCard
+                  key={character.id}
+                  character={character}
+                  onClick={handleCardClick}
+                />
               ))}
           </div>
           {fetchedData.info && (
             <div className="flex justify-center items-center ">
-              <Pagination setPageNumber={setPageNumber} totalPages={fetchedData.info.pages} />
+              <Pagination
+                setPageNumber={setPageNumber}
+                totalPages={fetchedData.info.pages}
+              />
             </div>
           )}
         </div>
         {selectedCharacter && (
-        <CharacterModal
-          isOpen={isModalOpen}
-          onClose={handleCloseModal}
-          character={selectedCharacter}
-        />
-      )}
+          <CharacterModal
+            isOpen={isModalOpen}
+            onClose={handleCloseModal}
+            character={selectedCharacter}
+          />
+        )}
       </div>
     </>
   );
