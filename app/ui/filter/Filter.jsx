@@ -22,6 +22,7 @@ const Filter = ({ statusItems, speciesItems, genderItems, handleFilterChange }) 
                   value={status}
                   onChange={() => handleFilterChange("status", status)}
                   className="mr-2"
+                  style={{accentColor: "#8c7ae6"}}
                 />
                 <label htmlFor={status}>{status}</label>
               </div>
@@ -42,7 +43,8 @@ const Filter = ({ statusItems, speciesItems, genderItems, handleFilterChange }) 
                   name={species}
                   value={species}
                   onChange={() => handleFilterChange("species", species)}
-                  className="mr-2"
+                  className="mr-2 "
+                  style={{accentColor: "#8c7ae6"}}
                 />
                 <label htmlFor={species}>{species}</label>
               </div>
@@ -64,6 +66,7 @@ const Filter = ({ statusItems, speciesItems, genderItems, handleFilterChange }) 
                   value={gender}
                   onChange={() => handleFilterChange("gender", gender)}
                   className="mr-2"
+                  style={{accentColor: "#8c7ae6"}}
                 />
                 <label htmlFor={gender}>{gender}</label>
               </div>

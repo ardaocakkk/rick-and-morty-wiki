@@ -15,6 +15,7 @@ export default function Home() {
   const [gender, updateGender] = useState([]);
   const [species, updateSpecies] = useState([]);
   const [fetchedData, updateFetchedData] = useState([]);
+  const [totalPages, setTotalPages] = useState();
   const [value, setValue] = useState("1");
 
   useEffect(() => {
@@ -74,7 +75,7 @@ export default function Home() {
           />
           <div className="flex flex-row justify-center items-center mb-3 mt-3">
             <h1 className="mr-2">Searching for </h1>
-            <RadioGroup value={value} onValueChange={(e) => setValue(e.value)}>
+            <RadioGroup variant='subtle' colorPalette={'purple'} value={value} onValueChange={(e) => setValue(e.value)}>
               <HStack gap="3">
                 <Radio value="1">Character</Radio>
                 <Radio value="2">Episode</Radio>
@@ -87,9 +88,11 @@ export default function Home() {
               <CharacterCard key={character.id} character={character} />
             ))}
           </div>
-          <div className="flex justify-center items-center">
-            <Pagination setPageNumber={setPageNumber} />
-          </div>
+          {fetchedData.info && (
+            <div className="flex justify-center items-center ">
+              <Pagination setPageNumber={setPageNumber} totalPages={fetchedData.info.pages} />
+            </div>
+          )}
         </div>
       </div>
     </>
