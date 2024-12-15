@@ -40,6 +40,7 @@ const Pagination = ({ setPageNumber, totalPages }) => {
       defaultPage={1}
       siblingCount={1}
       variant='solid'
+      
     >
       <HStack spacing={4} align="center">
         <PaginationPrevTrigger onClick={prev} />

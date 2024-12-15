@@ -1,7 +1,6 @@
 "use client";
 import { useEffect, useState } from "react";
 import CharacterCard from "./ui/cards/CharacterCard";
-
 import SearchBar from "./ui/search/Search";
 import Pagination from "./ui/Pagination/Pagination";
 import Filter from "./ui/filter/Filter";
@@ -19,6 +18,8 @@ export default function Home() {
   const [value, setValue] = useState("1");
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedCharacter, setSelectedCharacter] = useState(null);
+  const [error, setError] = useState(false);
+
   const handleCardClick = (character) => {
     setSelectedCharacter(character);
     setIsModalOpen(true);
@@ -35,8 +36,20 @@ export default function Home() {
     )}&gender=${gender.join(",")}&species=${species.join(",")}`;
 
     (async function () {
-      let data = await fetch(api).then((res) => res.json());
-      updateFetchedData(data);
+      try {
+        let data = await fetch(api).then((res) => res.json());
+        if (data.error) {
+          setError(true);
+          updateFetchedData([]);
+        } else {
+          setError(false);
+          updateFetchedData(data);
+        }
+      } catch (error) {
+        console.error("Error fetching data:", error);
+        setError(true);
+        updateFetchedData([]);
+      }
     })();
   }, [pageNumber, search, status, gender, species]);
 
@@ -97,18 +110,22 @@ export default function Home() {
             genderItems={genderItems}
             handleFilterChange={handleFilterChange}
           />
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {fetchedData.results &&
-              fetchedData.results.map((character) => (
-                <CharacterCard
-                  key={character.id}
-                  character={character}
-                  onClick={handleCardClick}
-                />
-              ))}
-          </div>
+          {error ? (
+            <div className="text-center text-[#c23616] font-black ">Nothing found</div>
+          ) : (
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
+              {fetchedData.results &&
+                fetchedData.results.map((character) => (
+                  <CharacterCard
+                    key={character.id}
+                    character={character}
+                    onClick={handleCardClick}
+                  />
+                ))}
+            </div>
+          )}
           {fetchedData.info && (
-            <div className="flex justify-center items-center ">
+            <div className="flex justify-center items-center mt-3 ">
               <Pagination
                 setPageNumber={setPageNumber}
                 totalPages={fetchedData.info.pages}

@@ -5,6 +5,7 @@ import RickSVG from "./ui/icons/RickSVG";
 import { Provider } from "../components/ui/provider";
 import Header from "./ui/Layout/Header";
 import TypeFilter from "./ui/filter/TypeFilter";
+import Footer from "./ui/Footer/Footer";
 
 
 
@@ -32,6 +33,7 @@ export default function RootLayout({ children }) {
         <TypeFilter/>
 
         <Provider>{children}</Provider>
+    <Footer/>
       </body>
     </html>
   );
