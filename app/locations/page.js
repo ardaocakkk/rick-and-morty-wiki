@@ -2,12 +2,15 @@
 import React, { useState, useEffect } from 'react';
 import CharacterCard from '../ui/cards/CharacterCard';
 import InputGroup from '../ui/InputGroup/InputGroup';
+import CharacterModal from '../ui/modal/CharacterModal';
 
 const Page = () => {
     const [info, setInfo] = useState({});
   const [results, setResults] = useState([]);
   const [number, setNumber] = useState(1); // Default ID, you can change it as needed
   const [locations, setLocations] = useState([]);
+  const [selectedCharacter, setSelectedCharacter] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const { dimension, type, name } = info;
 
@@ -58,6 +61,16 @@ const Page = () => {
     fetchLocation();
   }, [number]);
 
+  const handleCardClick = (character) => {
+    setSelectedCharacter(character);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedCharacter(null);
+  };
+
   return (
     <div className="flex justify-center">
       <div className="mx-auto w-full max-w-[1200px] p-4">
@@ -97,10 +110,17 @@ const Page = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {results &&
             results.map((character) => (
-              <CharacterCard key={character.id} character={character} />
+              <CharacterCard key={character.id} character={character} onClick={handleCardClick} />
             ))}
         </div>
       </div>
+      {selectedCharacter && (
+        <CharacterModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          character={selectedCharacter}
+        />
+      )}
     </div>
   );
 };

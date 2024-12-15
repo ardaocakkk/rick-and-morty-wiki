@@ -6,6 +6,7 @@ import SearchBar from "./ui/search/Search";
 import Pagination from "./ui/Pagination/Pagination";
 import Filter from "./ui/filter/Filter";
 import TypeFilter from "./ui/filter/TypeFilter";
+import CharacterModal from "./ui/modal/CharacterModal";
 
 export default function Home() {
   const [pageNumber, setPageNumber] = useState(1);
@@ -16,6 +17,17 @@ export default function Home() {
   const [fetchedData, updateFetchedData] = useState([]);
   const [totalPages, setTotalPages] = useState();
   const [value, setValue] = useState("1");
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCharacter, setSelectedCharacter] = useState(null);
+  const handleCardClick = (character) => {
+    setSelectedCharacter(character);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedCharacter(null);
+  };
 
   useEffect(() => {
     const api = `https://rickandmortyapi.com/api/character/?page=${pageNumber}&name=${search}&status=${status.join(",")}&gender=${gender.join(",")}&species=${species.join(",")}`;
@@ -64,7 +76,7 @@ export default function Home() {
           />
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
               {fetchedData.results && fetchedData.results.map((character) => (
-                <CharacterCard key={character.id} character={character} />
+                <CharacterCard key={character.id} character={character} onClick={handleCardClick} />
               ))}
           </div>
           {fetchedData.info && (
@@ -73,6 +85,13 @@ export default function Home() {
             </div>
           )}
         </div>
+        {selectedCharacter && (
+        <CharacterModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          character={selectedCharacter}
+        />
+      )}
       </div>
     </>
   );

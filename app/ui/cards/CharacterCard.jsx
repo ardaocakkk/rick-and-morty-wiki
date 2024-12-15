@@ -2,9 +2,10 @@ import { Box, Image, Text, Button, Badge } from "@chakra-ui/react";
 
 import { DataListItem, DataListRoot } from "../../../components/ui/data-list";
 
-const CharacterCard = ({ character }) => {
+const CharacterCard = ({ character, onClick }) => {
   return (
-    <Box width="320px" bg="#2f3640" color="white" borderRadius="md" overflow="hidden" boxShadow="md" position="relative">
+    <Box width="320px" bg="#2f3640" color="white" borderRadius="md" overflow="hidden" boxShadow="md" position="relative"       onClick={() => onClick(character)}
+    cursor="pointer">
       <Badge
         position="absolute"
         top="10px"

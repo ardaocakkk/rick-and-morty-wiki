@@ -3,14 +3,15 @@
 import React, { useState, useEffect } from "react";
 import InputGroup from "../ui/InputGroup/InputGroup";
 import CharacterCard from "../ui/cards/CharacterCard"; 
-import TypeFilter from "../ui/filter/TypeFilter";
+import CharacterModal from "../ui/modal/CharacterModal";
 
 const Page = () => {
   const [total, setTotal] = useState(0);
   const [episode, setEpisode] = useState(null);
   const [results, setResults] = useState([]);
   const [id, setID] = useState(1); // Default ID, you can change it as needed
-
+  const [selectedCharacter, setSelectedCharacter] = useState(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   useEffect(() => {
     const fetchTotal = async () => {
       try {
@@ -51,6 +52,16 @@ const Page = () => {
     fetchEpisode();
   }, [id]);
 
+  const handleCardClick = (character) => {
+    setSelectedCharacter(character);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setIsModalOpen(false);
+    setSelectedCharacter(null);
+  };
+
   return (
     <div className="flex justify-center ">
     <div className="mx-auto w-full max-w-[1200px] p-4">
@@ -84,10 +95,17 @@ const Page = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {results &&
             results.map((character) => (
-              <CharacterCard key={character.id} character={character} />
+              <CharacterCard key={character.id} character={character} onClick={handleCardClick} />
             ))}
       </div>
     </div>
+    {selectedCharacter && (
+        <CharacterModal
+          isOpen={isModalOpen}
+          onClose={handleCloseModal}
+          character={selectedCharacter}
+        />
+      )}
     </div>  
   );
 };
